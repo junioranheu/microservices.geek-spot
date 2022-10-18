@@ -7,7 +7,7 @@ Back-end do GeekSpot em Microsserviços
 
 ## 📃 Sobre o projeto
 
-O intuito desse projeto é refazer o back-end que foi inicialmente feito utilizando DDD sem microsserviços, mas agora com essa abordagem arquitetônica.
+O intuito desse mini-projeto é refazer o back-end que foi inicialmente desenvolvido sem a utilização de microsserviços, mas, dessa vez, utilizando esta abordagem arquitetônica.
 <br/>
 <br/>
 Aliás, o que são microsserviços?
