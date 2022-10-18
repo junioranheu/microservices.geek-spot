@@ -64,11 +64,11 @@ namespace Itens.Infrastructure.Persistence
         public async Task<ItemDTO>? GetById(int id)
         {
             var byId = await _context.Itens.
-                        Include(u => u.Usuarios).ThenInclude(ut => ut.UsuariosTipos).
-                        Include(u => u.Usuarios).ThenInclude(ui => ui.UsuariosInformacoes).
-                        Include(it => it.ItensTipos).
-                        Include(ii => ii.ItensImagens).
-                        Where(i => i.ItemId == id && i.IsAtivo == true).AsNoTracking().FirstOrDefaultAsync();
+                       Include(u => u.Usuarios).ThenInclude(ut => ut.UsuariosTipos).
+                       Include(u => u.Usuarios).ThenInclude(ui => ui.UsuariosInformacoes).
+                       Include(it => it.ItensTipos).
+                       Include(ii => ii.ItensImagens).
+                       Where(i => i.ItemId == id && i.IsAtivo == true).AsNoTracking().FirstOrDefaultAsync();
 
             ItemDTO dto = _map.Map<ItemDTO>(byId);
             return dto;

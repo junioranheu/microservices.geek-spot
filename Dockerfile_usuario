@@ -1,0 +1,29 @@
+# SecretSenhaBancoDados
+# docker build -t microservice_usuario -f Dockerfile_usuario ./src
+# https://geekspotapi.azurewebsites.net/api/Usuarios/1
+# http://localhost:4002/api/Usuarios/1
+
+FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS base
+WORKDIR /app
+EXPOSE 80
+EXPOSE 443
+
+FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
+WORKDIR /src
+COPY ["Usuario.API/Usuarios.API.csproj", "Usuario.API/"]
+COPY ["Usuarios.Infrastructure/Usuarios.Infrastructure.csproj", "Usuarios.Infrastructure/"]
+COPY ["Usuarios.Application/Usuarios.Application.csproj", "Usuarios.Application/"]
+COPY ["Usuarios.Domain/Usuarios.Domain.csproj", "Usuarios.Domain/"]
+COPY ["Utils/Utils.csproj", "Utils/"]
+RUN dotnet restore "Usuario.API/Usuarios.API.csproj"
+COPY . .
+WORKDIR "/src/Usuario.API"
+RUN dotnet build "Usuarios.API.csproj" -c Release -o /app/build
+
+FROM build AS publish
+RUN dotnet publish "Usuarios.API.csproj" -c Release -o /app/publish /p:UseAppHost=false
+
+FROM base AS final
+WORKDIR /app
+COPY --from=publish /app/publish .
+ENTRYPOINT ["dotnet", "Usuarios.API.dll"]

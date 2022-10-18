@@ -15,6 +15,11 @@ namespace Itens.Infrastructure.AutoMapper
 
             // Comentário;
             CreateMap<Comentario, ComentarioDTO>().ReverseMap();
+
+            // Usuário e afins;
+            CreateMap<UsuarioTipo, UsuarioTipoDTO>().ReverseMap();
+            CreateMap<Usuario, UsuarioDTO>().ReverseMap();
+            CreateMap<UsuarioInformacao, UsuarioInformacaoDTO>().ReverseMap();
         }
     }
 }

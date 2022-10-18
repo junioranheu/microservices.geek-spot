@@ -1,0 +1,31 @@
+# SecretSenhaBancoDados
+# docker build -t microservice_sistema -f Dockerfile_sistema ./src
+# https://geekspotapi.azurewebsites.net/api/Sistema/todosEstados
+# http://localhost:4001/api/Sistema/todosEstados
+
+FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS base
+WORKDIR /app
+EXPOSE 80
+EXPOSE 443
+
+FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
+WORKDIR /src
+COPY ["Sistemas.API/Sistemas.API.csproj", "Sistemas.API/"]
+COPY ["Item.Application/Itens.Application.csproj", "Item.Application/"]
+COPY ["Item.Domain/Itens.Domain.csproj", "Item.Domain/"]
+COPY ["Utils/Utils.csproj", "Utils/"]
+COPY ["Sistemas.Application/Sistemas.Application.csproj", "Sistemas.Application/"]
+COPY ["Sistemas.Domain/Sistemas.Domain.csproj", "Sistemas.Domain/"]
+COPY ["Sistemas.Infrastructure/Sistemas.Infrastructure.csproj", "Sistemas.Infrastructure/"]
+RUN dotnet restore "Sistemas.API/Sistemas.API.csproj"
+COPY . .
+WORKDIR "/src/Sistemas.API"
+RUN dotnet build "Sistemas.API.csproj" -c Release -o /app/build
+
+FROM build AS publish
+RUN dotnet publish "Sistemas.API.csproj" -c Release -o /app/publish /p:UseAppHost=false
+
+FROM base AS final
+WORKDIR /app
+COPY --from=publish /app/publish .
+ENTRYPOINT ["dotnet", "Sistemas.API.dll"]

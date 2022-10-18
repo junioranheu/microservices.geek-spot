@@ -1,0 +1,30 @@
+# SecretSenhaBancoDados
+# docker build -t microservice_item -f Dockerfile_item ./src
+# https://geekspotapi.azurewebsites.net/api/Itens/todos
+# http://localhost:4000/api/Itens/todos
+
+FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS base
+WORKDIR /app
+EXPOSE 80
+EXPOSE 443
+
+FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
+WORKDIR /src
+COPY ["Item.API/Itens.API.csproj", "Item.API/"]
+COPY ["Itens.Infrastructure/Itens.Infrastructure.csproj", "Itens.Infrastructure/"]
+COPY ["Item.Application/Itens.Application.csproj", "Item.Application/"]
+COPY ["Item.Domain/Itens.Domain.csproj", "Item.Domain/"]
+COPY ["Usuarios.Domain/Usuarios.Domain.csproj", "Usuarios.Domain/"]
+COPY ["Utils/Utils.csproj", "Utils/"]
+RUN dotnet restore "Item.API/Itens.API.csproj"
+COPY . .
+WORKDIR "/src/Item.API"
+RUN dotnet build "Itens.API.csproj" -c Release -o /app/build
+
+FROM build AS publish
+RUN dotnet publish "Itens.API.csproj" -c Release -o /app/publish /p:UseAppHost=false
+
+FROM base AS final
+WORKDIR /app
+COPY --from=publish /app/publish .
+ENTRYPOINT ["dotnet", "Itens.API.dll"]

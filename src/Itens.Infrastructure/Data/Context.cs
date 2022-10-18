@@ -1,6 +1,5 @@
 ﻿using Itens.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
-using Usuarios.Domain.Entities;
 
 namespace Itens.Infrastructure.Data
 {
@@ -13,6 +12,8 @@ namespace Itens.Infrastructure.Data
 
         // Usuarios;
         public DbSet<Usuario> Usuarios { get; set; }
+        public DbSet<UsuarioTipo> UsuariosTipos { get; set; }
+        public DbSet<UsuarioInformacao> UsuariosInformacoes { get; set; }
 
         // Itens;
         public DbSet<ItemTipo> ItensTipos { get; set; }

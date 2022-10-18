@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using Usuarios.Domain.Entities;
 using static Utils.Biblioteca;
 
 namespace Itens.Domain.Entities

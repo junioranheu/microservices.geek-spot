@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
-using Usuarios.Domain.Entities;
 using static Utils.Biblioteca;
 
 namespace Itens.Domain.Entities

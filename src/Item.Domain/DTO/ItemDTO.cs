@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
-using Usuarios.Domain.DTO;
 using Utils.DTO;
 using static Utils.Biblioteca;
 
